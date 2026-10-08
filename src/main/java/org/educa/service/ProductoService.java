@@ -1,25 +1,88 @@
 package org.educa.service;
 
+import generated.Producto;
 import jakarta.xml.bind.JAXBException;
+import org.educa.dao.ProductoDAO;
 import org.educa.entity.ProductoEntity;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProductoService {
 
     public List<ProductoEntity> readFile(String fileXml) throws JAXBException {
-        //TODO: Implementar
-        return null;
+
+        ProductoDAO productoDAO = new ProductoDAO();
+
+        List<Producto> productos = productoDAO.getProductos(fileXml);
+
+        List<ProductoEntity> listaProductos = new ArrayList<>();
+
+        for (Producto producto : productos) {
+
+            ProductoEntity productoEntity = new ProductoEntity();
+
+
+            productoEntity.setProducto(producto);
+
+
+
+            BigDecimal descuento = producto.getPrecio()
+                    .multiply(producto.getDescuento());
+
+            descuento = descuento.divide(BigDecimal.valueOf(100));
+
+
+
+            BigDecimal precioFinal = producto.getPrecio()
+                    .subtract(descuento);
+
+
+            precioFinal = precioFinal.setScale(2, RoundingMode.HALF_UP);
+
+
+
+            BigDecimal costeAlmacenaje = producto.getCostes().getCostesAlmacenaje();
+
+            BigDecimal costeEnvio = producto.getCostes().getCostesEnvio();
+
+            BigDecimal coste = costeAlmacenaje.add(costeEnvio);
+
+            coste = coste.setScale(2, RoundingMode.HALF_UP);
+
+
+
+            BigDecimal beneficio = precioFinal.subtract(coste);
+
+            beneficio = beneficio.setScale(2, RoundingMode.HALF_UP);
+
+
+
+            productoEntity.setPrecioFinal(precioFinal);
+            productoEntity.setCost(coste);
+            productoEntity.setProfit(beneficio);
+
+
+
+            listaProductos.add(productoEntity);
+        }
+
+        return listaProductos;
     }
 
-    public void exportSummary(String path, String fileXml) throws JAXBException, IOException {
-        //TODO: Implementar
+    public void exportSummary(String path, String fileXml)
+            throws JAXBException, IOException {
+
 
     }
 
-    public void exportExcel(String path, String fileXml) throws JAXBException, IOException, ParseException {
-        //TODO: Implementar
+    public void exportExcel(String path, String fileXml)
+            throws JAXBException, IOException, ParseException {
+
+
     }
 }
