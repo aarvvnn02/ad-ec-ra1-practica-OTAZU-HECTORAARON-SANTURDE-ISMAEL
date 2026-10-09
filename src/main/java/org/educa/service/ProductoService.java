@@ -26,26 +26,7 @@ public class ProductoService {
 
             ProductoEntity productoEntity = new ProductoEntity();
 
-<<<<<<< HEAD
 
-            productoEntity.setProducto(producto);
-
-
-
-            BigDecimal descuento = producto.getPrecio()
-                    .multiply(producto.getDescuento());
-
-            descuento = descuento.divide(BigDecimal.valueOf(100));
-
-
-
-            BigDecimal precioFinal = producto.getPrecio()
-                    .subtract(descuento);
-
-
-            precioFinal = precioFinal.setScale(2, RoundingMode.HALF_UP);
-
-=======
             productoEntity.setProducto(producto);
 
             BigDecimal precioFinal = producto.getPrecio()
@@ -55,7 +36,6 @@ public class ProductoService {
                                     .divide(BigDecimal.valueOf(100))
                     )
                     .setScale(2, RoundingMode.HALF_UP);
->>>>>>> 8afa177 (Update3-Ejercicio2)
 
 
             BigDecimal costeAlmacenaje = producto.getCostes().getCostesAlmacenaje();
@@ -65,21 +45,13 @@ public class ProductoService {
             BigDecimal coste = costeAlmacenaje.add(costeEnvio);
 
             coste = coste.setScale(2, RoundingMode.HALF_UP);
-
-
-<<<<<<< HEAD
-
-=======
->>>>>>> 8afa177 (Update3-Ejercicio2)
+            
             BigDecimal beneficio = precioFinal.subtract(coste);
 
             beneficio = beneficio.setScale(2, RoundingMode.HALF_UP);
 
-<<<<<<< HEAD
 
 
-=======
->>>>>>> 8afa177 (Update3-Ejercicio2)
             productoEntity.setPrecioFinal(precioFinal);
             productoEntity.setCost(coste);
             productoEntity.setProfit(beneficio);
@@ -102,13 +74,5 @@ public class ProductoService {
             throws JAXBException, IOException, ParseException {
 
 
-<<<<<<< HEAD
     }
 }
-=======
-
-
-    }
-}
-
->>>>>>> 8afa177 (Update3-Ejercicio2)
